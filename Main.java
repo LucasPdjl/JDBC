@@ -1,36 +1,48 @@
 public class Main {
     public static void main(String[] args) {
-        // Criando o banco
-        Banco banco = new Banco("Banco Puyol");
+        Banco banco = new Banco("Banco Central");
+        
+        
+        Agencia agencia1 = new Agencia("Agência 1");
+        Agencia agencia2 = new Agencia("Agência 2");
+        
+        Cliente cliente1 = new Cliente("João Silva");
+        Cliente cliente2 = new Cliente("Maria Oliveira");
+        Cliente cliente3 = new Cliente("Carlos Santos");
 
-        // Criando agências
-        Agencia agencia1 = new Agencia("001", banco);
-        Agencia agencia2 = new Agencia("002", banco);
-
-        // Criando clientes
-        Cliente cliente1 = new Cliente("Elmaia");
-        Cliente cliente2 = new Cliente("Jemaf");
-
-        Conta conta1 = new Conta("203", agencia1);
-        Conta conta2 = new Conta("1111", agencia2);
-
+        Conta conta1 = new Conta(1, 5000);
         conta1.adicionarCliente(cliente1);
-        conta1.adicionarCliente(cliente2);
+        
+        Conta conta2 = new Conta(2, -200);
         conta2.adicionarCliente(cliente2);
+        
+        Conta conta3 = new Conta(3, 10000);
+        conta3.adicionarCliente(cliente3);
 
-        cliente1.adicionarConta(conta1);
-        cliente2.adicionarConta(conta1);
-        cliente2.adicionarConta(conta2);
+        agencia1.adicionarConta(conta1);
+        agencia1.adicionarConta(conta2);
+        agencia2.adicionarConta(conta3);
 
-        System.out.println("Banco: " + banco.getNome());
-        for (Agencia agencia : banco.getAgencias()) {
-            System.out.println("  Agência: " + agencia.getCodigo());
-            for (Conta conta : agencia.getContas()) {
-                System.out.println("    Conta: " + conta.getNumero());
-                for (Cliente cliente : conta.getClientes()) {
-                    System.out.println("      Cliente: " + cliente.getNome());
-                }
-            }
-        }
+        banco.adicionarAgencia(agencia1);
+        banco.adicionarAgencia(agencia2);
+
+        // metodos da atividade 6
+        System.out.println("Clientes com saldo negativo:");
+        banco.listarClientesComSaldoNegativo().forEach(cliente -> System.out.println(cliente.getNome()));
+
+        System.out.println("\nSaldo por agência:");
+        banco.calcularSaldoPorAgencia().forEach((agencia, saldo) ->
+                System.out.println(agencia.getNome() + ": " + saldo));
+
+        System.out.println("\nTop 3 clientes com maior saldo:");
+        banco.listarTop3ClientesComMaiorSaldo().forEach(cliente -> System.out.println(cliente.getNome()));
+
+        System.out.println("\nContas acima de R$ 5000:");
+        banco.listarContasAcimaDe(5000).forEach(conta ->
+                System.out.println("Conta ID: " + conta.getId() + " - Saldo: " + conta.getSaldo()));
+
+        System.out.println("\nContas do cliente João Silva:");
+        banco.listarContasPorCliente(cliente1).forEach(conta ->
+                System.out.println("Conta ID: " + conta.getId() + " - Saldo: " + conta.getSaldo()));
     }
 }
