@@ -2,38 +2,32 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        // Criando banco
+        
         Banco banco = new Banco("Banco do Puyol");
-
-        // Criando agências
+        ncias
         Agencia agencia1 = new Agencia("001", banco);
         Agencia agencia2 = new Agencia("002", banco);
-
-        // Criando clientes
+ 
         Cliente cliente1 = new Cliente("Jemaf");
         Cliente cliente2 = new Cliente("El Maia");
         Cliente cliente3 = new Cliente("Wellington");
 
-        // Criando contas
         Conta conta1 = new Conta("1001", 600.0, agencia1);
         Conta conta2 = new Conta("1002", -200.0, agencia1);
         Conta conta3 = new Conta("2001", 1500.0, agencia2);
         Conta conta4 = new Conta("2002", 300.0, agencia2);
 
-        // Associando clientes às contas
         conta1.adicionarCliente(cliente1);
         conta2.adicionarCliente(cliente2);
         conta3.adicionarCliente(cliente3);
         conta4.adicionarCliente(cliente1);
         conta4.adicionarCliente(cliente2);
 
-        // Adicionando contas às agências
         agencia1.adicionarConta(conta1);
         agencia1.adicionarConta(conta2);
         agencia2.adicionarConta(conta3);
         agencia2.adicionarConta(conta4);
 
-        // Testando os métodos
         System.out.println("\n1 - Clientes com saldo negativo:");
         List<Cliente> clientesComSaldoNegativo = banco.listarClientesComSaldoNegativo();
         clientesComSaldoNegativo.forEach(cliente -> System.out.println(cliente.getNome()));
