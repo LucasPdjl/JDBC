@@ -1,48 +1,58 @@
+import java.util.*;
+
 public class Main {
     public static void main(String[] args) {
-        Banco banco = new Banco("Banco Central");
-        
-        
-        Agencia agencia1 = new Agencia("Agência 1");
-        Agencia agencia2 = new Agencia("Agência 2");
-        
-        Cliente cliente1 = new Cliente("João Silva");
-        Cliente cliente2 = new Cliente("Maria Oliveira");
-        Cliente cliente3 = new Cliente("Carlos Santos");
+        // Criando banco
+        Banco banco = new Banco("Banco do Puyol");
 
-        Conta conta1 = new Conta(1, 5000);
+        // Criando agências
+        Agencia agencia1 = new Agencia("001", banco);
+        Agencia agencia2 = new Agencia("002", banco);
+
+        // Criando clientes
+        Cliente cliente1 = new Cliente("Jemaf");
+        Cliente cliente2 = new Cliente("El Maia");
+        Cliente cliente3 = new Cliente("Wellington");
+
+        // Criando contas
+        Conta conta1 = new Conta("1001", 600.0, agencia1);
+        Conta conta2 = new Conta("1002", -200.0, agencia1);
+        Conta conta3 = new Conta("2001", 1500.0, agencia2);
+        Conta conta4 = new Conta("2002", 300.0, agencia2);
+
+        // Associando clientes às contas
         conta1.adicionarCliente(cliente1);
-        
-        Conta conta2 = new Conta(2, -200);
         conta2.adicionarCliente(cliente2);
-        
-        Conta conta3 = new Conta(3, 10000);
         conta3.adicionarCliente(cliente3);
+        conta4.adicionarCliente(cliente1);
+        conta4.adicionarCliente(cliente2);
 
+        // Adicionando contas às agências
         agencia1.adicionarConta(conta1);
         agencia1.adicionarConta(conta2);
         agencia2.adicionarConta(conta3);
+        agencia2.adicionarConta(conta4);
 
-        banco.adicionarAgencia(agencia1);
-        banco.adicionarAgencia(agencia2);
+        // Testando os métodos
+        System.out.println("\n1 - Clientes com saldo negativo:");
+        List<Cliente> clientesComSaldoNegativo = banco.listarClientesComSaldoNegativo();
+        clientesComSaldoNegativo.forEach(cliente -> System.out.println(cliente.getNome()));
 
-        // metodos da atividade 6
-        System.out.println("Clientes com saldo negativo:");
-        banco.listarClientesComSaldoNegativo().forEach(cliente -> System.out.println(cliente.getNome()));
+        System.out.println("\n2 - Total de saldo por agência:");
+        Map<Agencia, Double> saldoPorAgencia = banco.calcularSaldoPorAgencia();
+        saldoPorAgencia.forEach((agencia, saldo) ->
+                System.out.println("Agência " + agencia.getCodigo() + ": R$ " + saldo));
 
-        System.out.println("\nSaldo por agência:");
-        banco.calcularSaldoPorAgencia().forEach((agencia, saldo) ->
-                System.out.println(agencia.getNome() + ": " + saldo));
+        System.out.println("\n3 - Clientes com maiores saldos:");
+        List<Cliente> clientesComMaiorSaldo = banco.listarClientesComMaiorSaldo(2);
+        clientesComMaiorSaldo.forEach(cliente -> System.out.println(cliente.getNome()));
 
-        System.out.println("\nTop 3 clientes com maior saldo:");
-        banco.listarTop3ClientesComMaiorSaldo().forEach(cliente -> System.out.println(cliente.getNome()));
+        System.out.println("\n4 - Contas com saldo acima de R$ X:");
+        List<Conta> contasAcimaDe = banco.listarContasAcimaDe(500);
+        contasAcimaDe.forEach(conta -> System.out.println("Conta " + conta.getNumero()));
 
-        System.out.println("\nContas acima de R$ 5000:");
-        banco.listarContasAcimaDe(5000).forEach(conta ->
-                System.out.println("Conta ID: " + conta.getId() + " - Saldo: " + conta.getSaldo()));
-
-        System.out.println("\nContas do cliente João Silva:");
-        banco.listarContasPorCliente(cliente1).forEach(conta ->
-                System.out.println("Conta ID: " + conta.getId() + " - Saldo: " + conta.getSaldo()));
+        System.out.println("\n5 - Contas do cliente X:");
+        List<Conta> contasDoCliente = banco.listarContasPorCliente(cliente1);
+        contasDoCliente.forEach(conta -> System.out.println("Conta " + conta.getNumero()));
     }
 }
