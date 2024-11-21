@@ -1,9 +1,11 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Agencia {
+public class Agencia implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String codigo;
-    private Banco banco;
+    private transient Banco banco;
     private List<Conta> contas;
 
     public Agencia(String codigo, Banco banco) {
